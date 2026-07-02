@@ -1,0 +1,18 @@
+description: systemd services overview
+category: system
+safety:
+  read_only: true
+requires:
+  - systemctl
+commands:
+  - run: systemctl --failed --no-pager --no-legend
+    label: Failed units
+  - run: systemctl list-units --type=service --state=running --no-pager --no-legend
+    label: Running services
+  - run: systemctl list-timers --no-pager
+    label: Timers
+prompt: |
+  Review systemd services. Identify failed units and their likely causes,
+  services that look unnecessary or duplicated, and timers that may be
+  misconfigured. For each failed unit, give the exact journalctl command
+  to investigate.

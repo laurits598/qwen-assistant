@@ -1,0 +1,18 @@
+description: Filesystem and mount configuration review
+category: storage
+safety:
+  read_only: true
+commands:
+  - run: findmnt --real -o TARGET,SOURCE,FSTYPE,OPTIONS
+    label: Mounted filesystems
+  - run: lsblk -f
+    label: Block devices and filesystems
+  - run: cat /etc/fstab
+    label: fstab
+  - run: swapon --show
+    label: Swap
+prompt: |
+  Review the filesystem layout and mount configuration. Look for risky
+  mount options, mismatches between fstab and actual mounts, missing
+  noatime where beneficial, filesystems mounted read-only unexpectedly,
+  and swap configuration issues.

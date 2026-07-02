@@ -1,0 +1,21 @@
+description: Hardware inventory and sensor readings
+category: hardware
+safety:
+  read_only: true
+commands:
+  - run: lscpu
+    label: CPU
+  - run: free -h
+    label: Memory
+  - run: lspci
+    label: PCI devices
+  - run: sensors
+    label: Temperatures and fans
+  - run: lsusb
+    label: USB devices
+prompt: |
+  Summarize the hardware and check sensor readings. Flag concerning
+  temperatures, missing sensor data, and anything notable about the
+  hardware configuration (e.g. GPU present, unusual devices).
+focus:
+  - temperatures above safe thresholds

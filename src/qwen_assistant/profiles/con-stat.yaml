@@ -1,0 +1,25 @@
+description: Docker container overview
+category: docker
+safety:
+  read_only: true
+requires:
+  - docker
+commands:
+  - run: docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}\t{{.Image}}"
+    label: Containers
+  - run: docker stats --no-stream
+    label: Live resource usage
+    timeout: 30
+  - run: docker system df
+    label: Docker disk usage
+  - run: docker images --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}\t{{.CreatedSince}}"
+    label: Images
+prompt: |
+  Analyze my Docker environment.
+  Identify unhealthy or restarting containers, high memory or CPU usage,
+  publicly exposed ports, dangling or unused images, and reclaimable disk
+  space. Suggest the exact (safe, inspect-first) commands for any cleanup.
+focus:
+  - restart loops
+  - memory pressure
+  - publicly exposed ports

@@ -1,0 +1,19 @@
+# Context
+Host: {{ hostname }} | OS: {{ os_release }} | Kernel: {{ kernel }} | Uptime: {{ uptime }}
+Time: {{ timestamp }} | Profile: {{ profile.name }}
+
+# Collected data
+{% for r in results %}
+## {{ r.label }}
+Command: `{{ r.command }}`{% if r.failed %}  (FAILED: {{ r.error }}){% endif %}
+
+```text
+{{ r.output if r.output else "(no output)" }}
+```
+
+{% endfor %}
+# Task
+{{ profile.prompt }}
+{% if profile.focus %}
+Prioritize: {{ profile.focus | join(", ") }}
+{% endif %}

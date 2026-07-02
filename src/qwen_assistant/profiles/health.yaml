@@ -1,0 +1,28 @@
+description: Overall system health snapshot
+category: system
+safety:
+  read_only: true
+commands:
+  - run: uptime
+    label: Load and uptime
+  - run: free -h
+    label: Memory
+  - run: df -h --exclude-type=tmpfs --exclude-type=devtmpfs
+    label: Disk usage
+  - run: ps aux --sort=-%cpu | head -12
+    label: Top CPU processes
+  - run: ps aux --sort=-%mem | head -12
+    label: Top memory processes
+  - run: systemctl --failed --no-pager --no-legend
+    label: Failed services
+  - run: journalctl -p 3 -n 40 --no-pager
+    label: Recent kernel/system errors (priority err)
+prompt: |
+  Assess the overall health of this system.
+  Check load average against CPU count, memory pressure and swap usage,
+  disk usage per mount, runaway processes, failed services, and recent
+  errors in the journal. State clearly whether the system is healthy.
+focus:
+  - failed services
+  - memory or swap pressure
+  - filesystems above 85% usage

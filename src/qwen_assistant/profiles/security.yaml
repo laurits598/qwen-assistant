@@ -1,0 +1,26 @@
+description: Basic security posture check
+category: security
+safety:
+  read_only: true
+commands:
+  - run: ss -tulpn
+    label: Listening sockets
+  - run: who -a
+    label: Logged-in users
+  - run: "awk -F: '$3 == 0 {print $1}' /etc/passwd"
+    label: UID 0 accounts
+  - run: journalctl -u ssh -u sshd -n 80 --no-pager
+    label: Recent SSH activity
+  - run: ufw status verbose
+    label: Firewall (ufw)
+  - run: ls /etc/cron.d /etc/cron.daily 2>/dev/null
+    label: System cron jobs
+prompt: |
+  Review the basic security posture. Flag unexpected listening services,
+  failed SSH login patterns, extra UID 0 accounts, a disabled firewall,
+  and suspicious cron entries. Be specific about which findings need
+  immediate attention versus hardening suggestions.
+focus:
+  - exposed services
+  - SSH brute-force attempts
+  - firewall disabled

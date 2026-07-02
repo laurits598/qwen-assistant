@@ -1,0 +1,26 @@
+description: Disk usage and largest space consumers
+category: storage
+safety:
+  read_only: true
+commands:
+  - run: df -h --exclude-type=tmpfs --exclude-type=devtmpfs
+    label: Filesystem usage
+  - run: df -i --exclude-type=tmpfs --exclude-type=devtmpfs
+    label: Inode usage
+  - run: lsblk -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT
+    label: Block devices
+  - run: du -xh -d1 /var 2>/dev/null | sort -rh | head -15
+    label: Largest directories under /var
+    timeout: 60
+  - run: du -xh -d1 /home 2>/dev/null | sort -rh | head -15
+    label: Largest directories under /home
+    timeout: 60
+prompt: |
+  Analyze disk usage. Identify filesystems that are full or trending full,
+  inode exhaustion, and the largest space consumers. Suggest specific,
+  safe cleanup candidates (old logs, caches, orphaned data) with the
+  commands to inspect them first.
+focus:
+  - filesystems above 85% usage
+  - inode exhaustion
+  - cleanup opportunities

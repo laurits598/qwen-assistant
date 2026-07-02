@@ -1,0 +1,23 @@
+description: Network configuration and connectivity
+category: network
+safety:
+  read_only: true
+commands:
+  - run: ip -brief addr
+    label: Interfaces
+  - run: ip route
+    label: Routing table
+  - run: ss -tulpn
+    label: Listening sockets
+  - run: cat /etc/resolv.conf
+    label: DNS configuration
+  - run: ping -c 3 -W 2 1.1.1.1
+    label: Internet reachability
+    timeout: 15
+prompt: |
+  Analyze the network configuration. Check interface state and addressing,
+  default route, DNS setup, and internet reachability. Flag services
+  listening on 0.0.0.0 that look like they should be local-only.
+focus:
+  - unexpectedly exposed listening ports
+  - DNS problems

@@ -1,0 +1,24 @@
+description: Log analysis for a specific service or container
+category: system
+safety:
+  read_only: true
+args:
+  - name: service
+    required: true
+commands:
+  - run: systemctl status {service} --no-pager
+    label: Unit status for {service}
+  - run: journalctl -u {service} -n 150 --no-pager
+    label: Journal for {service}
+  - run: docker logs --tail 100 {service}
+    label: Docker logs for {service} (if it is a container)
+    timeout: 20
+prompt: |
+  Analyze the logs for this service. Identify errors, stack traces,
+  restart loops, permission problems, connection failures, and their most
+  likely root cause. Some log sources may have failed if the name is a
+  container rather than a systemd unit (or vice versa) — that is expected;
+  analyze whichever source produced output.
+focus:
+  - root cause of the most recent errors
+  - restart loops
